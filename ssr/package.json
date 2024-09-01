@@ -1,0 +1,16 @@
+{
+  "name": "ssr",
+  "scripts": {
+    "dev": "tsx watch src/index.ts"
+  },
+  "type": "module",
+  "dependencies": {
+    "@hono/node-server": "^1.12.2",
+    "dotenv": "^16.4.5",
+    "hono": "^4.5.10"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.17",
+    "tsx": "^4.7.1"
+  }
+}
