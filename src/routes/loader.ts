@@ -10,6 +10,24 @@ function routes() {
     }
 }
 
+async function getCode() {
+    for(let i:number = 0; i < routes()?.length; i++) {
+          try {
+            const html = await fsPromise.readFile('./routes/' + routes()?.[i] + '/page.ssr', 'utf8');
+            const typescript = await fsPromise.readFile('./routes/' + routes()?.[i] + '/page.ts', 'utf8');
+            return [{
+                route: routes()?.[i],
+                html: html,
+                typescript: typescript
+            }]
+          } catch (error) {
+            console.log(error)
+          }
+      }
+}
+
+console.log(getCode());
+
 function loader() {
     console.log(routes());  
     console.log(routes()?.length) 
