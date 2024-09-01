@@ -26,7 +26,7 @@ async function getCode() {
       }
 }
 
-console.log(getCode());
+console.log(await getCode());
 
 function loader() {
     console.log(routes());  
