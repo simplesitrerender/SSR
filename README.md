@@ -9,10 +9,6 @@ npm run dev
 open http://localhost:5520
 ```
 
-## License
-
-MIT
-
 ## File standarts
 
 - To create a website route create a new folder in the routes folder
