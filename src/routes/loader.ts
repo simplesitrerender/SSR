@@ -26,7 +26,15 @@ async function getCode() {
       }
 }
 
-console.log(await getCode());
+let codey = await getCode();
+const tt = codey?.map((i) => {
+    return {
+        route: i.route,
+        html: i.html.replaceAll('<h1>', '<h2>'),
+        typescript: i.typescript
+    }
+});
+console.log(codey);
 
 function loader() {
     console.log(routes());  
