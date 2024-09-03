@@ -44,12 +44,35 @@ console.log(`╔═════════════════════�
 console.log(`║   Running server on port ${port}    ║`); 
 console.log(`╚══════════════════════════════════╝`);
 
+async function getCode() {
+  for(let i:number = 0; i < routes()?.length; i++) {
+        try {
+          const html = await fs.readFile('./routes/' + routes()?.[i] + '/page.ssr', 'utf8');
+          const typescript = await fs.readFile('./routes/' + routes()?.[i] + '/page.ts', 'utf8');
+          return [{
+              route: routes()?.[i],
+              html: html.replaceAll('<h1>', '<h2>'),
+              typescript: typescript
+          }]
+        } catch (error) {
+          console.log(error)
+        }
+    }
+}
+
+let codey = await getCode();
+console.log(codey[0].html);
+console.log(codey[0].typescript);
+console.log(codey[0].route);
+
 for(let i:number = 0; i < routes()?.length; i++) {
   try {
-    const htmlf = raw(await fs.readFile('./routes/' + routes()?.[i] + '/page.ssr', 'utf8'));
+    const htmlFile = raw(await fs.readFile('./routes/' + routes()?.[i] + '/page.ssr', 'utf8'));
+    let codeyy = raw(htmlFile.replaceAll(/<h1>/g, "<h2>"));
+    let codeyyy = raw(codeyy.replaceAll(/<h1>/g, "</h2>"));
     app.get('/' + routes()?.[i], (c) => {
       return c.html(
-        html `${htmlf}`
+        html `${codeyy}`
       )
     })
   } catch (error) {

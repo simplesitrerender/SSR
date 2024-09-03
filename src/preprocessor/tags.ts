@@ -1,5 +1,10 @@
+import { as_tag } from './code/tags/as'
+
 let html_tags = {    
-    as: `<as></as>` 
+    as: {
+        html: `<as></as>`,
+        script: as_tag
+    } 
 }
 
 let script_tags = {
