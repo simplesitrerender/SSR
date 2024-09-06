@@ -11,14 +11,6 @@ dotenv.config();
 
 let port = Number(process.env.PORT || 5520)
 
-let getCodeVar = await getCode();
-// codey.html - Get route html file
-// codey.typescript - Get route typescript file
-// codey.route - Get route name
-
-
-
-
 const server = http.createServer(async (req, res) => {
   const parsedUrl = url.parse(req.url || '', true);
 
