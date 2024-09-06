@@ -2,7 +2,7 @@
 
 Render Websites in a custom smart made format. Its not just fast. Its lightweight too!
 
-![Static Badge](https://img.shields.io/badge/:badgeContent)
+![Static Badge](https://img.shields.io/badge/Status-Beta-blue)
 
 # Benifits
 
