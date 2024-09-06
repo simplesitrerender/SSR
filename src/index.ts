@@ -4,6 +4,8 @@ import * as fs from 'fs/promises'
 import http from 'http';
 import url from 'url';
 import { mainRouteHTML } from './vars/vars';
+import { sError } from './custom/error';
+
 
 dotenv.config();
 
@@ -26,11 +28,14 @@ const server = http.createServer(async (req, res) => {
     res.end(mainRouteHTML);
   }
   try {
-    const routesList = await routes();
+    let routesList = await routes();
+    if(routesList == null) {
+      sError.send("var-not-defined");
+    }
     for (let i = 0; i < routesList.length; i++) {
       if (parsedUrl.pathname === '/' + routesList[i]) {
-        const html = await fs.readFile('./routes/' + routesList[i] + '/page.ssr', 'utf8');
         const typescript = await fs.readFile('./routes/' + routesList[i] + '/page.ts', 'utf8');
+        const html = await fs.readFile('./routes/' + routesList[i] + '/page.ssr', 'utf8') + `<script>`+typescript+`</script>`;
         
         res.statusCode = 200;
         res.setHeader('Content-Type', 'text/html');
