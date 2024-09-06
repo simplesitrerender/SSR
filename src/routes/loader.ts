@@ -11,30 +11,21 @@ function routes() {
 }
 
 async function getCode() {
+    // @ts-ignore
     for(let i:number = 0; i < routes()?.length; i++) {
           try {
             const html = await fsPromise.readFile('./routes/' + routes()?.[i] + '/page.ssr', 'utf8');
             const typescript = await fsPromise.readFile('./routes/' + routes()?.[i] + '/page.ts', 'utf8');
-            return [{
+            return {
                 route: routes()?.[i],
-                html: html,
+                html: html.replaceAll('<h1>', '<h2>'),
                 typescript: typescript
-            }]
+            }
           } catch (error) {
             console.log(error)
           }
       }
-}
-
-let codey = await getCode();
-const tt = codey?.map((i) => {
-    return {
-        route: i.route,
-        html: i.html.replaceAll('<h1>', '<h2>'),
-        typescript: i.typescript
-    }
-});
-console.log(codey);
+  }
 
 function loader() {
     console.log(routes());  
@@ -50,7 +41,7 @@ async function getMainScriptCode() {
 }
 // loader();
 
-export { getMainRouteCode, getMainScriptCode, routes };
+export { getMainRouteCode, getMainScriptCode, routes, getCode };
   
 
   
