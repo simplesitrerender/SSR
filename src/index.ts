@@ -1,10 +1,11 @@
 import dotenv from 'dotenv'
-import { routes, getCode } from './routes/loader'
+import { routes, getCode, getMainRouteCode, getMainScriptCode } from './routes/loader'
 import * as fs from 'fs/promises'
 import http from 'http';
 import url from 'url';
 import { mainRouteHTML } from './vars/vars';
-import { sError } from './custom/error';
+
+
 
 
 dotenv.config();
@@ -21,25 +22,24 @@ const server = http.createServer(async (req, res) => {
   }
   try {
     let routesList = await routes();
-    if(routesList == null) {
-      sError.send("var-not-defined");
-    }
-    for (let i = 0; i < routesList.length; i++) {
-      if (parsedUrl.pathname === '/' + routesList[i]) {
+    if(routesList) {
+      for (let i = 0; i < routesList.length; i++) {
         const typescript = await fs.readFile('./routes/' + routesList[i] + '/page.ts', 'utf8');
-        const html = await fs.readFile('./routes/' + routesList[i] + '/page.ssr', 'utf8') + `<script>`+typescript+`</script>`;
-        
-        res.statusCode = 200;
-        res.setHeader('Content-Type', 'text/html');
-        res.write(html);
-        res.end();
-        return;
+        const html = await fs.readFile('./routes/' + routesList[i] + '/page.ssr', 'utf8')+`<script>`+typescript+`</script>`;
+        if (parsedUrl.pathname === '/' + routesList[i]) {
+          res.statusCode = 200;
+          res.write(html);
+          res.end();
+          return;
+      }
       }
     }
-    
-    res.statusCode = 404;
-    res.setHeader('Content-Type', 'text/plain');
-    res.end('404 Not Found');
+    else if(parsedUrl.pathname === '/') {
+      res.statusCode = 200;
+      res.write(getMainRouteCode+`<script>`+getMainScriptCode+`</script>`)
+      res.end()
+      return;
+    }
   } catch (error) {
     console.error('Error:', error);
     res.statusCode = 500;

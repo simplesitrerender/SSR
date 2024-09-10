@@ -11,6 +11,9 @@ importers:
       '@hono/node-server':
         specifier: ^1.12.2
         version: 1.12.2(hono@4.5.10)
+      '@miniflare/core':
+        specifier: ^2.14.2
+        version: 2.14.2
       '@miniflare/html-rewriter':
         specifier: ^2.14.2
         version: 2.14.2
